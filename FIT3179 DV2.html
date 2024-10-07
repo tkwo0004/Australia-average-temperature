@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis" style="width: 8%; height: 50vh;"></div>
+  <script>
+    var spec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": 800,
+      "height": 600,
+      "layer": [
+        {
+          "data": {
+            "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+            "format": {
+              "type": "topojson",
+              "feature": "countries"
+            }
+          },
+          "transform": [
+            { "filter": "datum.id == '36'" }
+          ],
+          "projection": { "type": "mercator" },
+          "mark": {
+            "type": "geoshape",
+            "fill": "lightgray",
+            "stroke": "white"
+          }
+        },
+        {
+          "data": {
+            "url": "https://raw.githubusercontent.com/tkwo0004/3179/refs/heads/main/AustralianAverageMaxTemp.csv"
+          },
+          "mark": {
+            "type": "circle",
+            "size": 100
+          },
+          "encoding": {
+            "longitude": { "field": "long", "type": "quantitative" },
+            "latitude": { "field": "lat", "type": "quantitative" },
+            "size": { "field": "Temp", "type": "quantitative" },
+            "color": { "field": "Temp", "type": "quantitative", "scale": { "scheme": "reds" } }
+          }
+        }
+      ],
+      "projection": { "type": "mercator" }
+    };
+    vegaEmbed('#vis', spec).catch(console.error);
+  </script>
+</body>
+</html>
+
+
