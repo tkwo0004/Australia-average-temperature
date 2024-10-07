@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script type="text/javascript">
+    var spec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Bar chart showing average temperatures across different regions in Australia.",
+      "data": {
+        "url": "https://raw.githubusercontent.com/tkwo0004/3179/refs/heads/main/AustralianAverageMaxTemp.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "transform": [
+        {
+          "aggregate": [{"op": "mean", "field": "Temp", "as": "AvgTemp"}],
+          "groupby": ["name"]
+        }
+      ],
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "name",
+          "type": "nominal",
+          "sort": "-y",
+          "axis": {
+            "title": "Region"
+          }
+        },
+        "y": {
+          "field": "AvgTemp",
+          "type": "quantitative",
+          "axis": {
+            "title": "Average Temperature (°C)"
+          }
+        },
+        "color": {
+          "field": "AvgTemp",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "reds"
+          }
+        }
+      }
+    };
+    
+    vegaEmbed('#vis', spec).catch(console.error);
+  </script>
+</body>
+</html>
